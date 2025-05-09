@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Trabajadores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .menu{
+            gap: 20px;
+            width: 100%;
+            background-color: #4211c9;
+            position: fixed; /* Fijo para que permanezca en la parte superior */
+            top: 0; /* Alinear al tope de la ventana */
+            left: 0; /* Alinear a la izquierda de la ventana */
+            right: 0; /* Alinear a la derecha de la ventana */
+            z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+           /* box-shadow: 2px 1px #08f013;*/
+          
+padding-top: 45PX;
+  display: flex;
+  justify-content: right;
+  padding-right: 150px;
+        }
+        .formulario {
+            padding: 20px;
+            margin-top: 145px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 600px;
+        }
+        .tabla-trabajadores {
+            margin: 20px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        .tabla-trabajadores th, .tabla-trabajadores td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .tabla-trabajadores th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        .tabla-trabajadores td {
+            text-align: center;
+        }
+        .boton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .boton:hover {
+            background-color: #45a049;
+        }
+        .mensaje-error {
+            color: red;
+        }
+        
+        h1:hover{
+            background-color: #45a049;
+            padding: 20px;
+            border-radius: 30px;
+
+        }
+    </style>
+</h:head>
+<h:body>
+    
+    <header class="menu">
+        
+        
+        <h1>Inicio </h1>
+        <h1>Descripcion</h1>
+         <h1>Agregar </h1>
+    </header>
+    <!-- Formulario -->
+    <h:form styleClass="formulario">
+        <h:messages globalOnly="true" styleClass="mensaje-error" />
+
+        <h:panelGrid columns="1">
+            <!-- ID solo números -->
+            <h:outputLabel value="ID" for="id" />
+            <h:inputText id="id" value="#{trabajadoresControlador.trabajador.id}" style="width: 100%;">
+                <f:validateLongRange minimum="1" />
+            </h:inputText>
+            <h:message for="id" styleClass="mensaje-error" />
+
+            <!-- Nombre solo letras -->
+            <h:outputLabel value="Nombre:" for="nombre" />
+            <h:inputText id="nombre" value="#{trabajadoresControlador.trabajador.nombre}" style="width: 100%;">
+                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$" />
+            </h:inputText>
+            <h:message for="nombre" styleClass="mensaje-error" />
+
+            <!-- Puesto solo letras -->
+            <h:outputLabel value="Puesto:" for="puesto" />
+            <h:inputText id="puesto" value="#{trabajadoresControlador.trabajador.puesto}" style="width: 100%;">
+                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$" />
+            </h:inputText>
+            <h:message for="puesto" styleClass="mensaje-error" />
+
+            <!-- Salario solo números con decimales -->
+            <h:outputLabel value="Salario:" for="salario" />
+            <h:inputText id="salario" value="#{trabajadoresControlador.trabajador.salario}" style="width: 100%;">
+                <f:validateDoubleRange minimum="0.01" />
+            </h:inputText>
+            <h:message for="salario" styleClass="mensaje-error" />
+
+            <!-- Botón guardar/actualizar -->
+            <h:outputLabel />
+            <h:commandButton 
+                value="#{trabajadoresControlador.editando ? 'Actualizar' : 'Guardar'}" 
+                action="#{trabajadoresControlador.guardar}" 
+                styleClass="boton" />
+        </h:panelGrid>
+    </h:form>
+
+    <!-- Tabla de Trabajadores -->
+    <h:form>
+        <h:dataTable value="#{trabajadoresControlador.trabajadores}" var="trabajador" styleClass="tabla-trabajadores">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{trabajador.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                #{trabajador.nombre}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Puesto</f:facet>
+                #{trabajador.puesto}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Salario</f:facet>
+                #{trabajador.salario}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Acciones</f:facet>
+                <h:commandButton value="Eliminar" action="#{trabajadoresControlador.eliminar(trabajador.id)}" styleClass="boton" />
+                <h:commandButton value="Editar" action="#{trabajadoresControlador.editar(trabajador.id)}" styleClass="boton" />
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+</h:body>
+</html>
