@@ -12,7 +12,7 @@ Creación del pool de conexiones:
 Entramos en http://localhost:4848/common/index.jsf y ahi buscamos jdbc
 Creamos un pool y mas o menos deben de quedar estas conexiones para poder conectarnos en la
 base de datos. (Primero en connections pools y luego en Jdbc resources para que en el persistence
-nos pueda reconocer el jdbc
+nos pueda reconocer el jdbc..
 
 Name Value
 User PRUEBATECNICA
